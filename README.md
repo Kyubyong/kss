@@ -62,10 +62,10 @@ You can do STEP 3 and 4 at the same time, if you have more than one gpu card.
 
 | Num Experiment       | Models |
 | :----- |:-------------|
-| 1      | soon|
-| 2      | soon|
-| 3| soon|
-|4 | soon|
+| 1      | [400k](https://www.dropbox.com/s/q133hrwyyvudl65/exp1.zip?dl=0)|
+| 2      | [400k](https://www.dropbox.com/s/vaz0tb5l8gwfvd0/exp2.zip?dl=0)|
+| 3| [400k](https://www.dropbox.com/s/iy7v2zzqguw1q18/exp3.zip?dl=0)|
+|4 | [400k](https://www.dropbox.com/s/qtxiss3jk0hjbap/exp4.zip?dl=0)|
 
 ## Notes
 
