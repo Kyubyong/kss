@@ -215,3 +215,39 @@ def load_j2shcj():
     assert len(jamo)==len(shcj.split("|"))
     j2shcj = {j: s for j, s in zip(jamo, shcj.split("|"))}
     return j2shcj
+
+# def jamo2syl(jamoset):
+#     """Inspired by Jamo.
+#     Return the Hangul character for the given jamo characters.
+#     """
+#     _JAMO_LEAD_OFFSET = 0x10ff
+#     _JAMO_VOWEL_OFFSET = 0x1160
+#     _JAMO_TAIL_OFFSET = 0x11a7
+#     _JAMO_OFFSET = 44032
+#     assert len(jamoset) in (2, 3), "CANNOT compose a syllable!"
+#
+#     onset = ord(jamoset[0]) - _JAMO_LEAD_OFFSET
+#     vowel = ord(jamoset[1]) - _JAMO_VOWEL_OFFSET
+#     coda = ord(jamoset[2]) - _JAMO_TAIL_OFFSET if len(jamoset)==3 else 0
+#     return unichr(coda + (vowel - 1) * 28 + (onset - 1) * 588 + _JAMO_OFFSET)
+#
+# def compose(jamotext):
+#     converted, jamoset = "", ""
+#     for char in jamotext:
+#         codepoint = ord(char)
+#         if 4352 <= codepoint <= 4447:  # Hangul Onset
+#             if jamoset:
+#                 converted += jamo2syl(jamoset)
+#             jamoset = char
+#         elif 4448 <= codepoint <= 4519: # Hangul Nuclues
+#             jamoset += char
+#         elif 4520 <= codepoint <= 4607: # Hangul Coda
+#             jamoset += char
+#             converted += jamo2syl(jamoset)
+#             jamoset = ""
+#         else: # Non Hangul
+#             if jamoset:
+#                 converted += jamo2syl(jamoset)
+#                 jamoset = ""
+#             converted += char
+#     return converted

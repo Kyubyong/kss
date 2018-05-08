@@ -5,6 +5,7 @@ By kyubyong park. kbpark.linguist@gmail.com.
 https://www.github.com/kyubyong/kss
 
 Compare speech synthesis performance depending on different text processing strategies.
+0: Hangul Jamo (0x01100-0x011FF) with G2P conversion
 1: Hangul Jamo (0x01100-0x011FF)
 2: Hangul Compatibility Jamo (0x03130-0x0318F)
 3: Hangul Jamo (0x01100-0x011FF). Single consonants only.
@@ -12,7 +13,7 @@ Compare speech synthesis performance depending on different text processing stra
 '''
 class Hyperparams:
     '''Hyper parameters'''
-    num_exp = 4
+    num_exp = 0
 
     # signal processing
     sr = 22050  # Sampling rate.
@@ -37,10 +38,15 @@ class Hyperparams:
     attention_win_size = 3
 
     # data
-    data = "/data/private/speech/ko"
+    data = "/data/public/rw/datasets/CSS10/ko"
     test_data = "ko.txt"
 
-    if num_exp == 1:
+    if num_exp == 0:
+        vocab = [u"␀", u"␃", " ", "!", ",", ".", "?", 'aa', 'c0', 'cc', 'ch', 'ee', 'h0', 'ii', 'k0', 'kf', 'kh', 'kk', 'ks', 'lb', 'lh', 'lk', 'll', 'lm', 'lp',
+         'ls', 'lt', 'mf', 'mm', 'nc', 'nf', 'nh', 'nn', 'ng', 'oh', 'oo', 'p0', 'pf', 'ph', 'pp', 'ps', 'qq', 'rr', 's0',
+         'ss', 't0', 'tf', 'th', 'tt', 'uu', 'vv', 'wa', 'we', 'wi', 'wo', 'wq', 'wv', 'xi', 'xx', 'ya', 'ye', 'yo',
+         'yq', 'yu', 'yv']
+    elif num_exp == 1:
         vocab = u'''␀␃ !,.?ᄀᄁᄂᄃᄄᄅᄆᄇᄈᄉᄊᄋᄌᄍᄎᄏᄐᄑ하ᅢᅣᅤᅥᅦᅧᅨᅩᅪᅫᅬᅭᅮᅯᅰᅱᅲᅳᅴᅵᆨᆩᆪᆫᆬᆭᆮᆯᆰᆱᆲᆴᆶᆷᆸᆹᆺᆻᆼᆽᆾᆿᇀᇁᇂ'''
     elif num_exp == 2:
         vocab = u'''␀␃ !,.?ㄱㄲㄳㄴㄵㄶㄷㄸㄹㄺㄻㄼㄾㅀㅁㅂㅃㅄㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ''' # HCJ

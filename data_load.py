@@ -16,6 +16,7 @@ import re
 import os
 import unicodedata
 from itertools import chain
+from g2p import runKoG2P
 
 
 def load_vocab():
@@ -37,22 +38,26 @@ def load_data(mode="train"):
     if mode=="train":
         # Parse
         fpaths, text_lengths, texts = [], [], []
-        transcript = os.path.join(hp.data, 'transcript.txt')
+        transcript = os.path.join(hp.data, 'transcript.v.1.1.txt')
         lines = codecs.open(transcript, 'r', 'utf-8').readlines()
         for line in lines:
-            fname, _, text, _ = line.strip().split("|")
+            fname, _, expanded, text, _ = line.strip().split("|")
 
             fpath = os.path.join(hp.data, fname)
             fpaths.append(fpath)
 
-            text += u"␃"  # ␃: EOS
-            if hp.num_exp==2:
-                text = [j2hcj[char] for char in text]
-            elif hp.num_exp==3:
-                text = [j2sj[char] for char in text]
-            elif hp.num_exp==4:
-                text = [j2shcj[char] for char in text]
-            text = chain.from_iterable(text)
+            if hp.num_exp==0:
+                text = expanded + u"␃"  # ␃: EOS
+                text = runKoG2P(text, "rulebook.txt")
+            else:
+                text += u"␃"  # ␃: EOS
+                if hp.num_exp==2:
+                    text = [j2hcj[char] for char in text]
+                elif hp.num_exp==3:
+                    text = [j2sj[char] for char in text]
+                elif hp.num_exp==4:
+                    text = [j2shcj[char] for char in text]
+                text = chain.from_iterable(text)
 
             text = [char2idx[char] for char in text]
             text_lengths.append(len(text))
@@ -62,15 +67,20 @@ def load_data(mode="train"):
     else: # synthesize on unseen test text.
         # Parse
         def _normalize(line):
-            text = line.split("|")[-1]
-            text += u"␃"
-            if hp.num_exp==2:
-                text = [j2hcj[char] for char in text]
-            elif hp.num_exp==3:
-                text = [j2sj[char] for char in text]
-            elif hp.num_exp==4:
-                text = [j2shcj[char] for char in text]
-            text = chain.from_iterable(text)
+            _, expanded, text = line.strip().split("|")
+
+            if hp.num_exp==0:
+                text = expanded + u"␃"  # ␃: EOS
+                text = runKoG2P(text, "rulebook.txt")
+            else:
+                text += u"␃"
+                if hp.num_exp==2:
+                    text = [j2hcj[char] for char in text]
+                elif hp.num_exp==3:
+                    text = [j2sj[char] for char in text]
+                elif hp.num_exp==4:
+                    text = [j2shcj[char] for char in text]
+                text = chain.from_iterable(text)
             text = [char2idx[char] for char in text]
             return text
 
