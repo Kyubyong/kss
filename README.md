@@ -1,10 +1,10 @@
 # Korean TTS Model: what is the best Hangul processing strategy for Korean speech synthesis?
 
-Hangul, the script for Korean, is a unique writing system. Hangul is syllable-based like Kana,
+Hangul is a unique script designed mostly for Korean. It is phonetic in principle like Latin letters, but you need to know much more pronunciation rules in order to pronounce it correctly than you do for German or Spanish. Hangul is syllable-based like Kana,
 the Japanese script, but Hangul is also different from Kana in that Hangul syllables can be decomposed
 into their constitutional consonants and vowels.
-This is quite handy for readability in practice, but often it embarrasses Korean computational linguists.
-Is it better to decompose Hangul syllables for this task?
+Putting together, these are quite handy for readability in practice, but often they embarrass Korean computational linguists.
+Do I have to convert graphmes into phonemes first? Is it better to decompose Hangul syllables for TTS?
  Or do I have to take syllables without decomposition?
  If you know the scene behind the Hangul unicode, you will find things are even
  more complicated. There are two kinds of unicode blocks for contemporary Hangul consonants and vowels (called __jamo__ in Korean): Hangul Jamo (0x01100-0x011FF) and
@@ -14,6 +14,7 @@ On the other hand, those two regard consonant clusters such as ㄲ, ㄱㅅ as a 
 
 I run four different experiements depending on the Hangul processing strategies below.
 
+* Exp.0: Hangul Jamo (0x01100-0x011FF) with consonant clusters. Graphemes are converted into phonemes.
 * Exp.1: Hangul Jamo (0x01100-0x011FF) with consonant clusters.
 * Exp.2: Hangul Compatibility Jamo (0x03130-0x0318F) with consonant clusters
 * Exp.3: Hangul Jamo (0x01100-0x011FF). Single consonants only.
@@ -30,7 +31,7 @@ I run four different experiements depending on the Hangul processing strategies 
 
 ## Data
 
-[KSS Dataset](https://www.kaggle.com/bryanpark/korean-single-speaker-speech-dataset), a Korean single speaker speech dataset, is used.
+[KSS Dataset](https://www.kaggle.com/bryanpark/korean-single-speaker-speech-dataset/version/2), a Korean single speaker speech dataset, is used.
 
 ## Model
 DCTTS, introudced in [Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention](https://arxiv.org/abs/1710.08969), is implemented for this project.
@@ -53,6 +54,7 @@ You can do STEP 3 and 4 at the same time, if you have more than one gpu card.
 
 | Num Experiment       | Samples |
 | :----- |:-------------|
+| 0      | [400k](https://soundcloud.com/kyubyong-park/sets/kss_exp0)|
 | 1      | [400k](https://soundcloud.com/kyubyong-park/sets/kss_exp1)|
 | 2      | [400k](https://soundcloud.com/kyubyong-park/sets/kss_exp2)|
 | 3| [400k](https://soundcloud.com/kyubyong-park/sets/kss_ex3)|
@@ -62,6 +64,7 @@ You can do STEP 3 and 4 at the same time, if you have more than one gpu card.
 
 | Num Experiment       | Models |
 | :----- |:-------------|
+| 0      | [400k](https://www.dropbox.com/s/ipt17hoo4lj56xg/exp0.zip?dl=0)|
 | 1      | [400k](https://www.dropbox.com/s/q133hrwyyvudl65/exp1.zip?dl=0)|
 | 2      | [400k](https://www.dropbox.com/s/vaz0tb5l8gwfvd0/exp2.zip?dl=0)|
 | 3| [400k](https://www.dropbox.com/s/iy7v2zzqguw1q18/exp3.zip?dl=0)|
@@ -69,4 +72,4 @@ You can do STEP 3 and 4 at the same time, if you have more than one gpu card.
 
 ## Notes
 
-  * soon.
+  * Refer to [this](https://github.com/Kyubyong/kss/blob/master/graph2pron_statistics.md), which is provided by Hyungjun So.
